@@ -1,7 +1,8 @@
 require('normalize.css/normalize.css');
 require('styles/App.css');
 
-import React from 'react';
+import React, {Component} from 'react';
+import ImgFigure from './ImgFigure';
 
 let yeomanImage = require('../images/yeoman.png');
 let imageDatas = require('../data/imageDatas.json');
@@ -11,14 +12,17 @@ class AppComponent extends React.Component {
   constructor(props){
     super(props);
 
+    // alert("appComponet, yeomanImage = "+ JSON.stringify(yeomanImage));
     imageDatas = this.generatorImageUrl(imageDatas);
   }
 
   generatorImageUrl(imageDatasArray){
     let length = imageDatasArray.length;
+    //alert("generatorImageUrl, length = " + length);
     for(let index=0; index<length; index++){
       let singleImageData = imageDatasArray[index];
-      singleImageData.imageUrl = require("../images/" +singleImageData.fileName);
+      singleImageData.imageUrl = require('../images/' +singleImageData.fileName);
+      // alert("singleImageData.imageUrl = "+singleImageData.imageUrl);
       imageDatasArray[index] = singleImageData;
     }
 
@@ -27,26 +31,33 @@ class AppComponent extends React.Component {
 
 
   render() {
+
+    let controllerUnits = [];
+    let imgFigures = [];
+    /*
+    imageDatas.forEach((value) => {
+      imgFigures.push(<ImgFigure data={value} />);
+    });
+    */
+
+    imageDatas.forEach(function(imageInfo){
+      imgFigures.push(<ImgFigure data={imageInfo} />);
+
+    });
+
     return (
-      /*
-      <div className="index">
-        <span>Hello World!11</span>
-        <img src={yeomanImage} alt="Yeoman Generator" />
-        <div className="notice">Please edit <code>src/components/Main.js</code> to get started!</div>
-      </div>
-      */
-
-      <select className="stage">
-        <select className="img-sec">
-
-        </select>
+      <section className="stage">
+        <section className="img-sec">
+          {imgFigures}
+        </section>
         <nav className="controller-nav">
-
+          {controllerUnits}
         </nav>
-      </select>
+      </section>
     );
   }
 }
+
 
 AppComponent.defaultProps = {
 };
